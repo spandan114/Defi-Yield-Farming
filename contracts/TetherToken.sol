@@ -1,6 +1,7 @@
+//SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.4;
 
-contract DaiToken {
+contract TetherToken {
     string  public name = "Mock TETHER Token";
     string  public symbol = "mTETHER";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
@@ -21,7 +22,7 @@ contract DaiToken {
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
 
-    constructor() public {
+    constructor(){
         balanceOf[msg.sender] = totalSupply;
     }
 
