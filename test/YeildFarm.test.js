@@ -60,5 +60,28 @@ describe("Farming", function () {
       })
     })
 
+    describe('Yield farming functionality', async () => {
+      it('Stake token', async () => {
+       const balanceOfInvestorBeforeStaking = await tetherToken.balanceOf(investor.address);
+       expect(balanceOfInvestorBeforeStaking.toString()).to.equal(tokens('100'));
+
+       // Approve token
+       await tetherToken.connect(investor).approve(yieldFarming.address,tokens('80'))
+       // Stake token
+       await yieldFarming.connect(investor).stakeToken(tokens('80'))
+
+       const balanceOfInvestorAfterStaking = await tetherToken.balanceOf(investor.address);
+       expect(balanceOfInvestorAfterStaking.toString()).to.equal(tokens('20'));
+
+       var investorStakingBalance = await yieldFarming.stakingBalance(investor.address);
+       var investorHasStake = await yieldFarming.hasStake(investor.address);
+       var investorCurrentStakingStatus = await yieldFarming.currentStakingStatus(investor.address);
+       
+       expect(investorStakingBalance.toString()).to.equal(tokens('80'));
+       expect(investorHasStake).to.equal(true);
+       expect(investorCurrentStakingStatus).to.equal(true);
+
+      })
+    })
 
 });
