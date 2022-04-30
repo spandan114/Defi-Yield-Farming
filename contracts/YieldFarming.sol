@@ -41,7 +41,15 @@ contract YieldFarming{
             currentStakingStatus[msg.sender] = true;
         }
     }
+    
     // 2) Unstake token (withdraw)
+    function unStakeToken(uint _amount) public {
+        uint balance = stakingBalance[msg.sender];
+        require(balance > _amount,'You dont hant have enough amout to withdraw');
+        tetherToken.transfer(msg.sender, _amount);
+        stakingBalance[msg.sender] -= _amount;
+        hasStake[msg.sender] = false;
+    }
 
     // 3) Issue token (issue reword)
     function issueReword() public isOwner() {

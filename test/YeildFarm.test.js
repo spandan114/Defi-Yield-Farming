@@ -95,6 +95,17 @@ describe("Farming", function () {
         expect(investorStakingBalance.toString()).to.equal(investorRewordBalance.toString());
 
       })
+
+      it('Unstake tether token', async () => {
+        
+        await yieldFarming.connect(investor).unStakeToken(tokens('40'));
+        const investorContractBalance = await yieldFarming.stakingBalance(investor.address);
+        const investorBalance = await tetherToken.balanceOf(investor.address);
+        expect(investorContractBalance.toString()).to.equal(tokens('40'));
+        expect(investorBalance.toString()).to.equal(tokens('60'));
+
+      })
+
     })
 
 });
