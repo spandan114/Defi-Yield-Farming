@@ -79,7 +79,20 @@ describe("Farming", function () {
        
        expect(investorStakingBalance.toString()).to.equal(tokens('80'));
        expect(investorHasStake).to.equal(true);
-       expect(investorCurrentStakingStatus).to.equal(true);
+       expect(investorCurrentStakingStatus).to.equal(true,"True");
+
+      })
+
+      it('Should failed if reword issuer is not contract owner', async () => {
+        await expect(yieldFarming.connect(investor).issueReword()).to.be.revertedWith('You dont have access to perform this operation !');
+      })
+
+      it('Issue reword', async () => {
+        
+        await yieldFarming.connect(owner).issueReword();
+        const investorStakingBalance = await yieldFarming.stakingBalance(investor.address);
+        const investorRewordBalance = await brownieToken.balanceOf(investor.address);
+        expect(investorStakingBalance.toString()).to.equal(investorRewordBalance.toString());
 
       })
     })

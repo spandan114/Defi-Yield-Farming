@@ -1,21 +1,30 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.4;
 
+import "hardhat/console.sol";
 import "./BrownieToken.sol";
 import "./TetherToken.sol";
 
 contract YieldFarming{
     BrownieToken public brownieToken;
     TetherToken public tetherToken;
+    address public owner;
 
     address[] public stakers;
     mapping(address => uint) public stakingBalance;
     mapping(address => bool) public hasStake;
     mapping(address => bool) public currentStakingStatus;
 
+    // Modifiers
+    modifier isOwner(){
+        require(msg.sender == owner,'You dont have access to perform this operation !');
+        _;
+    }
+
     constructor(BrownieToken _brownieAddress,TetherToken _tetherAddress){
         brownieToken=_brownieAddress;
         tetherToken=_tetherAddress;
+        owner=msg.sender;
     }    
 
     // 1) Stake token (Deposite)
@@ -33,8 +42,16 @@ contract YieldFarming{
         }
     }
     // 2) Unstake token (withdraw)
-    // 3) Issue token (issue reword)
 
-    
+    // 3) Issue token (issue reword)
+    function issueReword() public isOwner() {
+        for(uint i=0;i < stakers.length;i++){
+            address reciptant = stakers[i];
+            uint balance = stakingBalance[reciptant];
+            if(balance > 0){
+                brownieToken.transfer(reciptant, balance);
+            }
+        }
+    }   
 
 }
