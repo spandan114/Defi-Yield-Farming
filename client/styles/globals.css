@@ -12,7 +12,7 @@ body{
 .farming-container{
   box-sizing: border-box;
   box-shadow: 0px 4px 12px #333443;
-  @apply bg-[#ffffff21] w-full lg:w-2/4 border border-[#A2A2A2] rounded-md p-4 lg:p-12 ;
+  @apply bg-[#ffffff21] w-full lg:w-2/5 border border-[#A2A2A2] rounded-md p-4 lg:p-12 ;
 }
 
 .input{
@@ -20,5 +20,13 @@ body{
 }
 
 .input-btn-label{
-  @apply border bg-[#ffffff4f] text-white rounded-r-md px-2 focus:outline-none ;
+  @apply w-40 border bg-[#ffffff4f] text-white rounded-r-md px-2 focus:outline-none ;
+}
+
+.stake{
+  @apply w-full bg-[#8C98FF] text-white text-center font-bold rounded-md p-2 mt-4 hover:bg-[#8c97ff63] hover:border-[#a4adff] ease-out duration-500 ;
+}
+
+.un-stake{
+  @apply w-full text-white text-center font-bold rounded-md p-2 mt-2 hover:bg-[#ffffff28] ease-out duration-500;
 }
