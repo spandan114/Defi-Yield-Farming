@@ -1,6 +1,12 @@
 const hre = require("hardhat");
 
+const tokens = (n) =>{
+  return hre.ethers.utils.parseUnits(n,'ether')
+}
+
 async function main() {
+
+  const [owner, investor1,investor2] = await hre.ethers.getSigners();
 
   // We get the contract to deploy
   const BrownieToken = await hre.ethers.getContractFactory("BrownieToken");
@@ -17,6 +23,11 @@ async function main() {
   const yieldFarming = await YieldFarming.deploy(brownieToken.address,tetherToken.address);
   await yieldFarming.deployed();
   console.log("YieldFarming deployed to:", yieldFarming.address);
+
+  await tetherToken.transfer(investor1.address, tokens('100'), { from: owner.address })
+  await tetherToken.transfer(investor2.address, tokens('100'), { from: owner.address })
+  await brownieToken.transfer(yieldFarming.address, tokens('1000000'))
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere

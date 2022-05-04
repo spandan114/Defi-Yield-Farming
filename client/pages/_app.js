@@ -1,6 +1,8 @@
 import '../styles/globals.css'
+import 'react-toastify/dist/ReactToastify.css';
 import {useEffect} from 'react'
 import { chainOrAccountChangedHandler } from '../utils/helper';
+import { ToastContainer } from 'react-toastify';
 
 function MyApp({ Component, pageProps }) {
 
@@ -11,7 +13,12 @@ function MyApp({ Component, pageProps }) {
     window.ethereum.on('chainChanged', chainOrAccountChangedHandler);
   }, [])
 
-  return <Component {...pageProps} />
+  return (
+    <>
+      <ToastContainer/>
+      <Component {...pageProps} />
+    </>
+  )
 }
 
 export default MyApp

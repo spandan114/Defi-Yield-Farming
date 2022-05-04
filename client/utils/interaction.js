@@ -17,19 +17,59 @@ export const loadAccount = async (web3) => {
 };
 
 // Connect with Brownie Token contract
-export const loadBrownieTokenContract = async(web3,dispatch) =>{
+export const loadBrownieTokenContract = async(web3) =>{
     const brownieToken = new web3.eth.Contract(brownieABI.abi,process.env.BrownieTokenAddress);
     return brownieToken;
 }
 
 // Connect with Tether Token contract
-export const loadTetherTokenContract = async(web3,dispatch) =>{
+export const loadTetherTokenContract = async(web3) =>{
     const tetherToken = new web3.eth.Contract(tetherABI.abi,process.env.TetherTokenAddress);
     return tetherToken;
 }
 
 // Connect with YieldFarming Token contract
-export const loadYieldFarmingContract = async(web3,dispatch) =>{
+export const loadYieldFarmingContract = async(web3) =>{
     const yieldFarmingToken = new web3.eth.Contract(yieldFarmingABI.abi,process.env.YieldFarmingAddress);
     return yieldFarmingToken;
+}
+
+export const stakeToken = async(farmingContract,tetherContract,address,amount,onSuccess,onError)=>{
+    await tetherContract.methods.approve(process.env.YieldFarmingAddress,amount).send({from:address})
+    .on('receipt', async function(receipt){
+
+        await farmingContract.methods.stakeToken(amount).send({from:address})
+            .on('receipt', function(receipt){
+                onSuccess(amount)
+            })
+            .on('error', function(error){ 
+            onError(error.message)
+            })
+        })
+
+    .on('error', function(error){ 
+      onError(error.message)
+    })
+}
+
+
+export const unStakeToken = async(farmingContract,address,amount,onSuccess,onError)=>{
+    await farmingContract.methods.unStakeToken(amount).send({from:address})
+     .on('receipt', function(receipt){
+        onSuccess(amount)
+      })
+     .on('error', function(error){ 
+       onError(error.message)
+     })
+}
+
+export const issueReword = async(farmingContract,address) =>{
+    
+    await farmingContract.methods.issueReword().send({from:address})
+    .on('receipt', function(receipt){
+       console.log(receipt)
+     })
+    .on('error', function(error){ 
+      console.log(error.message)
+    })
 }

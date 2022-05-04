@@ -27,7 +27,7 @@ contract TetherToken {
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
-        require(balanceOf[msg.sender] >= _value);
+        require(balanceOf[msg.sender] >= _value,'You dont have enough balance');
         balanceOf[msg.sender] -= _value;
         balanceOf[_to] += _value;
         emit Transfer(msg.sender, _to, _value);
@@ -35,6 +35,7 @@ contract TetherToken {
     }
 
     function approve(address _spender, uint256 _value) public returns (bool success) {
+        require(balanceOf[msg.sender] >= _value,'You dont have enough balance');
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
         return true;

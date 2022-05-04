@@ -12,6 +12,7 @@
     "next": "12.1.5",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-toastify": "^9.0.0",
     "web3": "^1.7.3"
   },
   "devDependencies": {
