@@ -27,7 +27,12 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
     
     const stakeBalance = () =>{
         if(inputBalance < 1){
-            toastError("Tether balance must be greater than 0");
+            toastError("Please enter valid staking amount !");
+            return;
+        }
+
+        if(walletBalance <=  inputBalance){
+            toastError("You dont have enough tether balance to stake !");
             return;
         }
 
@@ -46,7 +51,7 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
 
     const unStakeBalance = () =>{
         if(stakingBalance < 1){
-            toastError("Staking balance must be greater than 0");
+            toastError("You dont have enough tether to un-staking !");
             return;
         }
 
