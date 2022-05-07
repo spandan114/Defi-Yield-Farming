@@ -7,7 +7,7 @@
 - [x] User can buy mTether token.
 - [x] User can stake tether token.
 - [x] User can unstake tether token.
-- [x] Admin can send reword reword token.
+- [x] Admin can send reword token.
 - [x] If user stake 10 token then he will get same amount of reword token back .
 - [x] Connect with waller.
 
