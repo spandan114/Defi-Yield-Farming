@@ -12,24 +12,35 @@ export const loadWeb3 = async () => {
 // Load connected wallet
 export const loadAccount = async (web3) => {
     const account = await web3.eth.getAccounts();
-    const network = await web3.eth.net.getId();
     return account;
 };
 
 // Connect with Brownie Token contract
 export const loadBrownieTokenContract = async(web3) =>{
+    const network = await web3.eth.net.getId();
+    if(network !== process.env.ChainId){
+        return null
+    }
     const brownieToken = new web3.eth.Contract(brownieABI.abi,process.env.BrownieTokenAddress);
     return brownieToken;
 }
 
 // Connect with Tether Token contract
 export const loadTetherTokenContract = async(web3) =>{
+    const network = await web3.eth.net.getId();
+    if(network !== process.env.ChainId){
+        return null
+    }
     const tetherToken = new web3.eth.Contract(tetherABI.abi,process.env.TetherTokenAddress);
     return tetherToken;
 }
 
 // Connect with YieldFarming Token contract
 export const loadYieldFarmingContract = async(web3) =>{
+    const network = await web3.eth.net.getId();
+    if(network !== process.env.ChainId){
+        return null
+    }
     const yieldFarmingToken = new web3.eth.Contract(yieldFarmingABI.abi,process.env.YieldFarmingAddress);
     return yieldFarmingToken;
 }
@@ -71,5 +82,16 @@ export const issueReword = async(farmingContract,address) =>{
      })
     .on('error', function(error){ 
       console.log(error.message)
+    })
+}
+
+export const buyTether = async(farmingContract,address,amount,onSuccess,onError) =>{
+    console.log(amount)
+    await farmingContract.methods.buyTether(amount).send({from:address})
+    .on('receipt', function(receipt){
+        onSuccess(amount)
+     })
+    .on('error', function(error){ 
+        onError(error.message)
     })
 }

@@ -1,6 +1,8 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.4;
 
+import "hardhat/console.sol";
+
 contract TetherToken {
     string  public name = "Mock TETHER Token";
     string  public symbol = "mTETHER";

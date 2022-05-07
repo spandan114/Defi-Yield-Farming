@@ -19,15 +19,18 @@ export default function Home() {
       const brownieToken = await loadBrownieTokenContract(web3)
       const tetherToken = await loadTetherTokenContract(web3)
       const yieldFarming = await loadYieldFarmingContract(web3)
-      const owner = await yieldFarming.methods.owner().call()
+      
+      if(yieldFarming){
+        const owner = await yieldFarming.methods.owner().call();
+        setOwnerAddress(owner)
+      }
 
       setWeb3Connection(web3);
       setWalletAddress(wallet[0]);
       setBrownieContract(brownieToken);
       setTetherContract(tetherToken);
       setYieldFarmingContract(yieldFarming);
-      setOwnerAddress(owner)
-
+      
     })()
   }, [])
 

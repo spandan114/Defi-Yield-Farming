@@ -3,7 +3,7 @@ import Image from 'next/image';
 import tether from '../public/tether.svg'
 import {connectWithWallet, etherToWei, round, weiToEther} from '../utils/helper'
 import { toastError } from '../utils/toastMessage';
-import { issueReword, stakeToken,unStakeToken } from '../utils/interaction';
+import { buyTether, issueReword, stakeToken,unStakeToken } from '../utils/interaction';
 
 const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,tetherContract,ownerAddress}) => {
 
@@ -13,7 +13,7 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
     const [walletBalance, setWalletBalance] = useState(0);
 
     useEffect(() => {
-        if(walletAddress && web3){
+        if(walletAddress && tetherContract && farmingContract && brownieContract && web3){
             (async()=>{
                 const amount = await tetherContract.methods.balanceOf(walletAddress).call();
                 setWalletBalance(weiToEther(web3,amount))
@@ -71,6 +71,27 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
         unStakeToken(farmingContract,walletAddress,etherToWei(web3,String(stakingBalance)),onSuccess,onError)
     }
 
+    const purchaseTether = () =>{
+
+        if(!farmingContract){
+            toastError("Invalid chain !");
+            return; 
+        }
+        if(!walletAddress){
+            toastError("Please connect with wallet !");
+            return;
+        }
+
+        const onSuccess = (res) =>{
+            var resAmount = weiToEther(web3,res)
+            setWalletBalance(walletBalance+resAmount)
+        }
+        const onError = (err) =>{
+            toastError(err)
+        }
+        buyTether(farmingContract,walletAddress,etherToWei(web3,"2"),onSuccess,onError)
+    }
+
   return (
     <div className='farming-container self-center m-2 lg:m-0'>
 
@@ -105,6 +126,7 @@ const FarmingComponent = ({walletAddress,web3,farmingContract,brownieContract,te
 
         <button className='stake' onClick={()=>stakeBalance()}>STAKE</button>
         <button className='un-stake' onClick={()=>unStakeBalance()}>UN-STAKE</button>
+        <button className='add-tether' onClick={()=>purchaseTether()}>Add 2TETHER in your account for testing</button>
         {
           (walletAddress && ownerAddress) && (walletAddress == ownerAddress) ?
           <button className='p-2 bg-white font-bold w-full rounded-sm ' onClick={()=>issueReword(farmingContract,walletAddress)}>Issue reword</button>

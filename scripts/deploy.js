@@ -24,8 +24,7 @@ async function main() {
   await yieldFarming.deployed();
   console.log("YieldFarming deployed to:", yieldFarming.address);
 
-  await tetherToken.transfer(investor1.address, tokens('100'), { from: owner.address })
-  await tetherToken.transfer(investor2.address, tokens('100'), { from: owner.address })
+  await tetherToken.transfer(yieldFarming.address, tokens('1000000'), { from: owner.address })
   await brownieToken.transfer(yieldFarming.address, tokens('1000000'))
 
 }

@@ -34,3 +34,7 @@ body{
 .connect-btn{
   @apply w-40 text-white text-center font-bold rounded-md hover:bg-[#ffffff28] ease-out duration-500;
 }
+
+.add-tether{
+  @apply w-full text-white bg-transparent text-center text-sm font-medium uppercase rounded-md p-2 mt-2 hover:bg-[#ffffff28] ease-out duration-500;
+}

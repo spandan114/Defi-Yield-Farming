@@ -27,7 +27,10 @@ describe("Farming", function () {
       await brownieToken.transfer(yieldFarming.address, tokens('1000000'))
 
       // Send tokens to investor
-      await tetherToken.transfer(investor.address, tokens('100'), { from: owner.address })
+      await tetherToken.transfer(investor.address, tokens('10'), { from: owner.address })
+
+      //Approve & transfer token to yield farming contract
+      await tetherToken.transfer(yieldFarming.address, tokens('10'), { from: owner.address })
 
     })
 
@@ -63,21 +66,21 @@ describe("Farming", function () {
     describe('Yield farming functionality', async () => {
       it('Stake token', async () => {
        const balanceOfInvestorBeforeStaking = await tetherToken.balanceOf(investor.address);
-       expect(balanceOfInvestorBeforeStaking.toString()).to.equal(tokens('100'));
+       expect(balanceOfInvestorBeforeStaking.toString()).to.equal(tokens('10'));
 
        // Approve token
-       await tetherToken.connect(investor).approve(yieldFarming.address,tokens('80'))
+       await tetherToken.connect(investor).approve(yieldFarming.address,tokens('8'))
        // Stake token
-       await yieldFarming.connect(investor).stakeToken(tokens('80'))
+       await yieldFarming.connect(investor).stakeToken(tokens('8'))
 
        const balanceOfInvestorAfterStaking = await tetherToken.balanceOf(investor.address);
-       expect(balanceOfInvestorAfterStaking.toString()).to.equal(tokens('20'));
+       expect(balanceOfInvestorAfterStaking.toString()).to.equal(tokens('2'));
 
        var investorStakingBalance = await yieldFarming.stakingBalance(investor.address);
        var investorHasStake = await yieldFarming.hasStake(investor.address);
        var investorCurrentStakingStatus = await yieldFarming.currentStakingStatus(investor.address);
        
-       expect(investorStakingBalance.toString()).to.equal(tokens('80'));
+       expect(investorStakingBalance.toString()).to.equal(tokens('8'));
        expect(investorHasStake).to.equal(true);
        expect(investorCurrentStakingStatus).to.equal(true,"True");
 
@@ -98,11 +101,19 @@ describe("Farming", function () {
 
       it('Unstake tether token', async () => {
         
-        await yieldFarming.connect(investor).unStakeToken(tokens('40'));
+        await yieldFarming.connect(investor).unStakeToken(tokens('4'));
         const investorContractBalance = await yieldFarming.stakingBalance(investor.address);
         const investorBalance = await tetherToken.balanceOf(investor.address);
-        expect(investorContractBalance.toString()).to.equal(tokens('40'));
-        expect(investorBalance.toString()).to.equal(tokens('60'));
+        expect(investorContractBalance.toString()).to.equal(tokens('4'));
+        expect(investorBalance.toString()).to.equal(tokens('6'));
+
+      })
+
+      it('Buy tether', async () => {
+        
+        await yieldFarming.connect(investor).buyTether(tokens('2'));
+        const investorBalance = await tetherToken.balanceOf(investor.address);
+        expect(investorBalance.toString()).to.equal(tokens('8'));
 
       })
 

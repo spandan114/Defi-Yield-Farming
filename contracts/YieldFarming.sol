@@ -60,6 +60,12 @@ contract YieldFarming{
                 brownieToken.transfer(reciptant, balance);
             }
         }
-    }   
+    }  
+
+    // 4) Buy tether
+    function buyTether(uint256 _amount) public {
+        require(_amount > 0);
+        tetherToken.transfer(msg.sender, _amount);
+    } 
 
 }
