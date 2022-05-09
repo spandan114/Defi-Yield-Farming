@@ -5,7 +5,7 @@ const tokens = (n) =>{
   return ethers.utils.parseUnits(n,'ether')
 }
 
-describe("Farming", function () {
+describe("Yield Farming", function () {
   
 
     var brownieToken, tetherToken, yieldFarming, owner, investor;

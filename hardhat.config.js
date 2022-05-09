@@ -8,4 +8,13 @@ module.exports = {
   paths: {
     artifacts: "./client/artifacts",
   },
+  // defaultNetwork: "ropsten",
+  // networks: {
+  //   hardhat: {
+  //   },
+  //   ropsten: {
+  //     url: "ALCHEMY URL",
+  //     accounts: ['METAMASK/OTHER WALLET PRIVATE KEY'],
+  //   }
+  // },
 };
