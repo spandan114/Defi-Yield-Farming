@@ -1,15 +1,20 @@
 # Yeild farming
 *Yeild farming :* lending or staking your cryptocurrency coins or tokens to get rewards in the form of interest.
 
+https://user-images.githubusercontent.com/55044734/167285799-64d089c5-f884-428b-8a36-e87297b3ddfd.mp4
 
 ### Project features :bulb:
 
 - [x] User can buy mTether token.
 - [x] User can stake tether token.
 - [x] User can unstake tether token.
-- [x] Admin can send reword reword token.
+- [x] Admin can send reword token.
 - [x] If user stake 10 token then he will get same amount of reword token back .
 - [x] Connect with waller.
+
+### Test cases
+![image](https://user-images.githubusercontent.com/55044734/167285858-72b092c9-c6f0-4b33-803f-67e6b3f7fe20.png)
+
 
 
 ### Tech stack & packages used 📦
